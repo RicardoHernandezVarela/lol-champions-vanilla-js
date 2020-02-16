@@ -2,7 +2,7 @@ const STATE = {
     loading: false,
     champions: [],
     img: null,
-    info: null,
+    lore: null,
     title: null,
     id: null,
     error: null
@@ -60,7 +60,7 @@ const getAllChampions = async (url) => {
         const individualInfo = await getIndividualInfo(allChampions);
 
         STATE.champions = individualInfo;
-        STATE.info = individualInfo[0].lore,
+        STATE.lore = individualInfo[0].lore,
         STATE.img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${individualInfo[0].id}_0.jpg`,
         STATE.title = individualInfo[0].title.toUpperCase(),
         STATE.id = individualInfo[0].id,
@@ -104,7 +104,7 @@ const championsList = (championsArr) => {
 
 const renderChampions = (championsArr) => {
     const champions = championsList(championsArr).join('\n');
-    const { title, img, info } = STATE;
+    const { title, img, lore } = STATE;
 
     return `
         <h1>LOL CHAMPIONS</h1>
@@ -116,16 +116,18 @@ const renderChampions = (championsArr) => {
         <div class="champion-info">
             <span>${title}</span>
             <img src=${img} alt="champion"/>
-            <p>${info}</p>
+            <p>${lore}</p>
         </div>
     `
 };
 
-const renderInfo = (title, img, info) => {
+const renderInfo = () => {
+    const { title, img, lore } = STATE;
+
     return `
         <span>${title.toUpperCase()}</span>
         <img src=${img} alt="champion"/>
-        <p>${info}</p>
+        <p>${lore}</p>
     `
 }
 
@@ -148,8 +150,12 @@ getAllChampions(championsURL)
                 if (tagname === "LI" || tagname === "IMG" || tagname === "SPAN") {
                     const { lore, title } = champion;
                     //console.log(champion);
-                    const img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
-                    champions_info.innerHTML = renderInfo(title, img, lore)
+                    STATE.title = champion.title;
+                    STATE.img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
+                    STATE.lore = champion.lore;
+                    STATE.id = champion.id;
+                    
+                    champions_info.innerHTML = renderInfo();
                 }
                 
             })
