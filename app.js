@@ -123,7 +123,7 @@ const renderChampions = (championsArr) => {
 
 const renderInfo = (title, img, info) => {
     return `
-        <span>${title}</span>
+        <span>${title.toUpperCase()}</span>
         <img src=${img} alt="champion"/>
         <p>${info}</p>
     `
@@ -146,7 +146,7 @@ getAllChampions(championsURL)
                 const champion = STATE.champions[id];
 
                 if (tagname === "LI" || tagname === "IMG" || tagname === "SPAN") {
-                    const { lore, title, id} = champion;
+                    const { lore, title } = champion;
                     //console.log(champion);
                     const img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
                     champions_info.innerHTML = renderInfo(title, img, lore)
