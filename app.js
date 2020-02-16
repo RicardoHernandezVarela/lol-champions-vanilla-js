@@ -131,7 +131,6 @@ const renderInfo = () => {
     `
 }
 
-
 getAllChampions(championsURL)
     .then(() => {
         if (STATE.error) {
@@ -143,25 +142,31 @@ getAllChampions(championsURL)
             champions_info = document.querySelector('.champion-info');
 
             all_champions = document.querySelector('#all-champions').addEventListener('click', (event) => {
-                let tagname = event.target.tagName;
+                //let tagname = event.target.tagName;
                 let id = event.target.id;
                 const champion = STATE.champions[id];
-                //console.log(id === STATE.id)
+                STATE.id = champion.id;
+                
+                STATE.title = champion.title;
+                STATE.img = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
+                STATE.lore = champion.lore;
+                
+                champions_info.innerHTML = renderInfo();
 
-                if (tagname === "LI" || tagname === "IMG") {
-                    //console.log(STATE.id);
-                    STATE.title = champion.title;
-                    STATE.img = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
-                    STATE.lore = champion.lore;
-                    STATE.id = champion.id;
-                    //event.target.style.background = "#9fa8da";
-
-                    champions_info.innerHTML = renderInfo();
-                }
+                const items = [...document.getElementsByTagName('LI')];
+                //console.log(items)
+                items.forEach(element => {
+                    if(element.id === id) {
+                        element.style.background = '#9fa8da';
+                    } else {
+                        element.style.background = '#f8f8f8';
+                    }
+                });
                 
             })
             
         }
+
     })
 
 
