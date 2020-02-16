@@ -12,12 +12,12 @@ const championsDIV = document.querySelector('.champions');
 let all_champions;
 let champions_info;
 
-const championsURL = 'http://ddragon.leagueoflegends.com/cdn/10.3.1/data/en_US/champion.json';
+const championsURL = 'https://ddragon.leagueoflegends.com/cdn/10.3.1/data/en_US/champion.json';
 
 const getIndividualInfo =  (champions) => {
     const champs = champions.map(async (champion) => {
         try {
-            const response = await fetch(`http://ddragon.leagueoflegends.com/cdn/10.3.1/data/en_US/champion/${champion.id}.json`)
+            const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/10.3.1/data/en_US/champion/${champion.id}.json`)
             const indChamp = await response.json();
             const data = indChamp.data[champion.id]
 
@@ -61,7 +61,7 @@ const getAllChampions = async (url) => {
 
         STATE.champions = individualInfo;
         STATE.lore = individualInfo[0].lore,
-        STATE.img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${individualInfo[0].id}_0.jpg`,
+        STATE.img = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${individualInfo[0].id}_0.jpg`,
         STATE.title = individualInfo[0].title.toUpperCase(),
         STATE.id = individualInfo[0].id,
         STATE.loading = false;
@@ -89,8 +89,8 @@ const renderError = (error) => {
 
 const championsList = (championsArr) => {
     const champions = championsArr.map((champion, index) => {
-    const img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
-
+    const img = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
+    
         return `
             <li id=${index}>
                 <img id=${index} src=${img} alt="champion"/>
@@ -146,15 +146,16 @@ getAllChampions(championsURL)
                 let tagname = event.target.tagName;
                 let id = event.target.id;
                 const champion = STATE.champions[id];
+                //console.log(id === STATE.id)
 
-                if (tagname === "LI" || tagname === "IMG" || tagname === "SPAN") {
-                    const { lore, title } = champion;
-                    //console.log(champion);
+                if (tagname === "LI" || tagname === "IMG") {
+                    //console.log(STATE.id);
                     STATE.title = champion.title;
-                    STATE.img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
+                    STATE.img = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
                     STATE.lore = champion.lore;
                     STATE.id = champion.id;
-                    
+                    //event.target.style.background = "#9fa8da";
+
                     champions_info.innerHTML = renderInfo();
                 }
                 
