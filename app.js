@@ -10,6 +10,7 @@ const STATE = {
 
 const championsDIV = document.querySelector('.champions');
 let all_champions;
+let champions_info;
 
 const championsURL = 'http://ddragon.leagueoflegends.com/cdn/10.3.1/data/en_US/champion.json';
 
@@ -87,13 +88,13 @@ const renderError = (error) => {
 };
 
 const championsList = (championsArr) => {
-    const champions = championsArr.map(champion => {
+    const champions = championsArr.map((champion, index) => {
     const img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
 
         return `
-            <li id=${champion.id}>
-                <img src=${img} alt="champion"/>
-                <span>${champion.name}</span>
+            <li id=${index}>
+                <img id=${index} src=${img} alt="champion"/>
+                <span id=${index}>${champion.name}</span>
             </li>
         `
     });
@@ -120,6 +121,14 @@ const renderChampions = (championsArr) => {
     `
 };
 
+const renderInfo = (title, img, info) => {
+    return `
+        <span>${title}</span>
+        <img src=${img} alt="champion"/>
+        <p>${info}</p>
+    `
+}
+
 
 getAllChampions(championsURL)
     .then(() => {
@@ -129,10 +138,25 @@ getAllChampions(championsURL)
             championsDIV.innerHTML = renderLoading;
         } else {
             championsDIV.innerHTML = renderChampions(STATE.champions);
+            champions_info = document.querySelector('.champion-info');
+
             all_champions = document.querySelector('#all-champions').addEventListener('click', (event) => {
-                console.log(event.target.id);
+                let tagname = event.target.tagName;
+                let id = event.target.id;
+                const champion = STATE.champions[id];
+
+                if (tagname === "LI" || tagname === "IMG" || tagname === "SPAN") {
+                    const { lore, title, id} = champion;
+                    //console.log(champion);
+                    const img = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
+                    champions_info.innerHTML = renderInfo(title, img, lore)
+                }
+                
             })
             
         }
     })
+
+
+
 
