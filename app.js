@@ -78,7 +78,7 @@ const renderLoading = () => {
         <div class="header">
             <h1>LOL CHAMPIONS</h1>
         </div>
-        <h2>Loading...</h2>
+        <div class="loader"></div>
     `
 }
 
