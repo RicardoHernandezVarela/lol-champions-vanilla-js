@@ -87,7 +87,10 @@ const renderError = (error) => {
         <div class="header">
             <h1>LOL CHAMPIONS</h1>
         </div>
-        <h2>${error}</h2>
+        <div class="not-found">
+            <i class="material-icons icon-gif">sentiment_very_dissatisfied</i>
+            <h5>${error}, try to reload the page.</h5>
+        </div>
     `
 };
 
@@ -148,28 +151,29 @@ getAllChampions(championsURL)
             champions_info = document.querySelector('.champion-info');
 
             all_champions = document.querySelector('#all-champions').addEventListener('click', (event) => {
-                //let tagname = event.target.tagName;
-                let id = event.target.id;
-                const champion = STATE.champions[id];
-                STATE.id = champion.id;
+                if (event.target.tagName !== 'UL') {
+                    let id = event.target.id;
+                    const champion = STATE.champions[id];
+                    STATE.id = champion.id;
+                    
+                    STATE.title = champion.title;
+                    STATE.img = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
+                    STATE.lore = champion.lore;
+                    
+                    champions_info.innerHTML = renderInfo();
+    
+                    const items = [...document.getElementsByTagName('LI')];
+                    //console.log(items)
+                    items.forEach(element => {
+                        if(element.id === id) {
+                            element.style.background = '#9fa8da';
+                        } else {
+                            element.style.background = '#f8f8f8';
+                        }
+                    });
+                }
                 
-                STATE.title = champion.title;
-                STATE.img = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
-                STATE.lore = champion.lore;
-                
-                champions_info.innerHTML = renderInfo();
-
-                const items = [...document.getElementsByTagName('LI')];
-                //console.log(items)
-                items.forEach(element => {
-                    if(element.id === id) {
-                        element.style.background = '#9fa8da';
-                    } else {
-                        element.style.background = '#f8f8f8';
-                    }
-                });
-                
-            })
+            });
             
         }
 
