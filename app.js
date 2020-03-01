@@ -75,14 +75,18 @@ const getAllChampions = async (url) => {
 
 const renderLoading = () => {
     return `
-        <h1>LOL CHAMPIONS</h1>
+        <div class="header">
+            <h1>LOL CHAMPIONS</h1>
+        </div>
         <h2>Loading...</h2>
     `
 }
 
 const renderError = (error) => {
     return `
-        <h1>LOL CHAMPIONS</h1>
+        <div class="header">
+            <h1>LOL CHAMPIONS</h1>
+        </div>
         <h2>${error}</h2>
     `
 };
@@ -107,7 +111,9 @@ const renderChampions = (championsArr) => {
     const { title, img, lore } = STATE;
 
     return `
-        <h1>LOL CHAMPIONS</h1>
+        <div class="header">
+            <h1>LOL CHAMPIONS</h1>
+        </div>
         <div class="champions-list">
             <ul id="all-champions">
                 ${champions}
